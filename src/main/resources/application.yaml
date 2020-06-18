@@ -1,0 +1,11 @@
+logging:
+  level:
+    root: INFO
+server:
+  servlet:
+    context-path: /docker/
+  port: 80
+spring:
+  resources:
+    static-locations: classpath:/WEB-INF/
+docker-host: ${DOCKER_HOST}
