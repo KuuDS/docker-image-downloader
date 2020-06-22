@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DockerClientConfiguration {
 
-    @Value("${docker.host}")
+    @Value("${docker-host}")
     String dockerHost;
 
     @Bean
