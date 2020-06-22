@@ -13,5 +13,10 @@
     "name": "default-registry",
     "type": "java.lang.String",
     "description": "Default registry while fetch tag lists."
+  },
+  {
+    "name": "registry-prefix",
+    "type": "java.lang.String",
+    "description": "Default registry prefix."
   }
 ]}

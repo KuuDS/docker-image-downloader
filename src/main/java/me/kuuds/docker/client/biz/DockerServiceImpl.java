@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DockerServiceImpl implements DockerService {
 
-    @Value("${default-registry:'index.docker.io'}")
+    @Value("${default-registry}")
     private String registryUrl;
-    @Value("${fetch-with-https:ture}")
+    @Value("${fetch-with-https}")
     private Boolean fetchWithHttps;
 
     private final RestTemplate restClient;

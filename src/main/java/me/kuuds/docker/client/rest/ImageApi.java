@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -31,7 +30,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 public class ImageApi {
 
-    @Value("${REGISTRY_PREFIXES:''}")
+    @Value("${registry-prefix}")
     private String registryPrefixes;
 
 
@@ -39,7 +38,7 @@ public class ImageApi {
     private final DockerService dockerService;
 
     @GetMapping("")
-    public void downloadPDFResource(HttpSession session, HttpServletResponse response,
+    public void downloadImage(HttpSession session, HttpServletResponse response,
             @RequestParam("name") String imageUrl) throws IOException, InterruptedException {
         String sessionID = session.getId();
         dockerService.pullImage(imageUrl);
