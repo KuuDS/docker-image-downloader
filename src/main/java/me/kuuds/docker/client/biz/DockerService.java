@@ -2,6 +2,13 @@ package me.kuuds.docker.client.biz;
 
 import java.io.InputStream;
 
+import me.kuuds.docker.client.domain.RecentTags;
+
+/**
+ * Docker Operation Service Layer.
+ *
+ * @author KuuDS
+ */
 public interface DockerService {
 
     /**
@@ -14,7 +21,17 @@ public interface DockerService {
 
     /**
      * Pull image from docker client.
+     *
      * @param imageUrl
      */
     void pullImage(String imageUrl) throws InterruptedException;
+
+    /**
+     * Fetch tags' list for specific repository.
+     *
+     * @param repositoryName
+     * @return {@link RecentTags}
+     */
+    RecentTags fetchTags(String repositoryName);
+
 }

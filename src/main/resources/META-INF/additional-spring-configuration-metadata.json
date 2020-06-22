@@ -1,0 +1,17 @@
+{"properties": [
+  {
+    "name": "fetch-with-https",
+    "type": "java.lang.String",
+    "description": "Request docker registry by https."
+  },
+  {
+    "name": "docker-host",
+    "type": "java.lang.String",
+    "description": "docker host pulled image from."
+  },
+  {
+    "name": "default-registry",
+    "type": "java.lang.String",
+    "description": "Default registry while fetch tag lists."
+  }
+]}

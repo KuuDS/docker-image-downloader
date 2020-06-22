@@ -9,3 +9,5 @@ spring:
   resources:
     static-locations: classpath:/WEB-INF/
 docker-host: ${DOCKER_HOST}
+fetch-with-https: ${FETCH_WITH_HTTPS}
+default-registry: ${DEFAULT_REGISTRY}
