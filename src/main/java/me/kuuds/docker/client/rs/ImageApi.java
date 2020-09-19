@@ -6,14 +6,8 @@
 package me.kuuds.docker.client.rs;
 
 import com.google.common.collect.Lists;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
