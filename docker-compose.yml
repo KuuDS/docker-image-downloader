@@ -1,0 +1,14 @@
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+
+version: "2"
+
+services:
+  docker_image_downloader:
+    image: kuuds/docker_image_downloader:1.0-SNAPSHOT
+    container_name: "docker_image_downloader"
+    ports:
+      - 8081:8080
