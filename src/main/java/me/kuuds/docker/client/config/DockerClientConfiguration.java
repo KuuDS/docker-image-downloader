@@ -1,30 +1,45 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package me.kuuds.docker.client.config;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.transport.DockerHttpClient;
+import com.github.dockerjava.zerodep.ZerodepDockerHttpClient;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-@Configuration
+@ApplicationScoped
 public class DockerClientConfiguration {
-
-    @Value("${docker-host}")
+    @ConfigProperty(name = "app.docker-host")
     String dockerHost;
 
-    @Bean
+    @Produces
     public DockerClientConfig dockerClientConfig() {
-        return DefaultDockerClientConfig.createDefaultConfigBuilder()
-        .withDockerHost(dockerHost)
-        .build();
+        return DefaultDockerClientConfig
+            .createDefaultConfigBuilder()
+            .withDockerHost(dockerHost)
+            .build();
     }
 
-    @Bean
-    public DockerClient dockerClient(DockerClientConfig config) {
-        return DockerClientBuilder.getInstance(config).build();
+    @Produces
+    public DockerClient dockerClient(
+        DockerClientConfig config,
+        DockerHttpClient httpClient
+    ) {
+        return DockerClientImpl.getInstance(config, httpClient);
     }
 
-
+    @Produces
+    public DockerHttpClient dockerHttpClient(DockerClientConfig config) {
+        return new ZerodepDockerHttpClient.Builder()
+            .dockerHost(config.getDockerHost())
+            .build();
+    }
 }

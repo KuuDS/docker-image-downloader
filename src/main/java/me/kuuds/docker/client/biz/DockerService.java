@@ -1,8 +1,13 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package me.kuuds.docker.client.biz;
 
 import java.io.InputStream;
-
 import me.kuuds.docker.client.domain.RecentTags;
+import me.kuuds.docker.client.exception.BizException;
 
 /**
  * Docker Operation Service Layer.
@@ -10,21 +15,20 @@ import me.kuuds.docker.client.domain.RecentTags;
  * @author KuuDS
  */
 public interface DockerService {
-
     /**
      * fetch tar raw data from docker client.
      *
      * @param imageUrl full image url
      * @return {@link InputStream}
      */
-    InputStream saveImage(String imageUrl);
+    InputStream saveImage(String imageUrl) throws BizException;
 
     /**
      * Pull image from docker client.
      *
      * @param imageUrl
      */
-    void pullImage(String imageUrl) throws InterruptedException;
+    void pullImage(String imageUrl) throws BizException;
 
     /**
      * Fetch tags' list for specific repository.
@@ -33,5 +37,4 @@ public interface DockerService {
      * @return {@link RecentTags}
      */
     RecentTags fetchTags(String repositoryName);
-
 }

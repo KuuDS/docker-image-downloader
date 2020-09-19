@@ -1,7 +1,11 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package me.kuuds.docker.client.domain;
 
 import java.util.List;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,8 +22,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Data
 public class TagList {
-
-  private String name;
-  private List<String> tags;
-
+    private String name;
+    private List<String> tags;
 }

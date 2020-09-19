@@ -13,7 +13,7 @@ class Query extends React.Component {
   }
 
   componentDidMount() {
-    fetch("/docker/image/prefix")
+    fetch("./image/prefix")
       .then((res) => res.json())
       .then((res) => this.setState({ prefix: res, prefixValue: res.length > 0 ? res[0] : null, isLoad: true }))
       .catch(e => console.error('connetion error', e))
@@ -21,7 +21,7 @@ class Query extends React.Component {
 
   searchImage() {
     const uri =
-      "/docker/image/tags?name=" +
+      "./image/tags?name=" +
       encodeURIComponent(this.state.prefixValue + "/" + this.state.value)
     fetch(uri)
       .then((res) => res.json())
