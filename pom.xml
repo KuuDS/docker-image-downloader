@@ -231,9 +231,10 @@
     <profile>
       <id>docker</id>
       <properties>
-        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.build>true</quarkus.container-image.build>
         <quarkus.native.container-build>true</quarkus.native.container-build>
+        <quarkus.container-image.group>kuuds</quarkus.container-image.group>
+        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
       </properties>
     </profile>
