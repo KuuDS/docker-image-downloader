@@ -1,5 +1,7 @@
 # docker-image-downloader project
 
+[![Build Status](https://travis-ci.org/KuuDS/docker-image-downloader.svg?branch=masterrs)](https://travis-ci.org/github/KuuDS/docker-image-downloader)
+
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
