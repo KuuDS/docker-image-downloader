@@ -8,7 +8,8 @@ version: "2"
 
 services:
   docker_image_downloader:
-    image: kuuds/docker_image_downloader:1.0-SNAPSHOT
+    image: kuuds/docker-image-downloader:1.0-SNAPSHOT
     container_name: "docker_image_downloader"
+    env_file: .env
     ports:
       - 8081:8080

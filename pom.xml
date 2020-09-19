@@ -236,6 +236,7 @@
         <quarkus.container-image.group>kuuds</quarkus.container-image.group>
         <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
+        <quarkus.container-image.insecure>true</quarkus.container-image.insecure>
       </properties>
     </profile>
   </profiles>
