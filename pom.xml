@@ -68,7 +68,7 @@
     </dependency>
     <dependency>
       <groupId>com.github.docker-java</groupId>
-      <artifactId>docker-java-transport-zerodep</artifactId>
+      <artifactId>docker-java-transport-netty</artifactId>
       <version>${docker.java.version}</version>
     </dependency>
     <dependency>
@@ -161,7 +161,9 @@
         </configuration>
         <executions>
           <execution>
+            <phase>validate</phase>
             <goals>
+              <goal>format</goal>
               <goal>check</goal>
             </goals>
           </execution>
@@ -182,6 +184,7 @@
           <execution>
             <phase>validate</phase>
             <goals>
+              <goal>write</goal>
               <goal>${plugin.prettier.goal}</goal>
             </goals>
           </execution>
@@ -222,9 +225,9 @@
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.additional-build-args>
-          --initialize-at-run-time=com.github.dockerjava.httpclient5.NamedPipeSocket$Kernel32
-</quarkus.native.additional-build-args>
+        <quarkus.native.container-build>true</quarkus.native.container-build>
+        <quarkus.container-image.name>${project.artifact}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
       </properties>
     </profile>
   </profiles>

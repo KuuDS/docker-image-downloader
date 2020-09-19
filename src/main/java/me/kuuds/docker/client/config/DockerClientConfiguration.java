@@ -9,8 +9,9 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.netty.NettyDockerCmdExecFactory;
+import com.github.dockerjava.netty.NettyInvocationBuilder;
 import com.github.dockerjava.transport.DockerHttpClient;
-import com.github.dockerjava.zerodep.ZerodepDockerHttpClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -29,17 +30,9 @@ public class DockerClientConfiguration {
     }
 
     @Produces
-    public DockerClient dockerClient(
-        DockerClientConfig config,
-        DockerHttpClient httpClient
-    ) {
-        return DockerClientImpl.getInstance(config, httpClient);
-    }
-
-    @Produces
-    public DockerHttpClient dockerHttpClient(DockerClientConfig config) {
-        return new ZerodepDockerHttpClient.Builder()
-            .dockerHost(config.getDockerHost())
-            .build();
+    public DockerClient dockerClient(DockerClientConfig config) {
+        return DockerClientImpl
+            .getInstance(config)
+            .withDockerCmdExecFactory(new NettyDockerCmdExecFactory());
     }
 }
