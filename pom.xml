@@ -6,18 +6,13 @@
     file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 -->
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.kuuds</groupId>
   <artifactId>docker-image-downloader</artifactId>
   <version>1.0-SNAPSHOT</version>
   <inceptionYear>2020</inceptionYear>
-
-  <scm>
-    <connection>scm:git:https://github.com/KuuDS/docker-image-donwloader.git</connection>
-    <developerConnection>scm:git:git@github.com:KuuDS/docker-image-donwloader.git</developerConnection>
-  </scm>
-
   <developers>
     <developer>
       <id>kuuds</id>
@@ -25,7 +20,10 @@
       <email>me@kuuds.me</email>
     </developer>
   </developers>
-
+  <scm>
+    <connection>scm:git:https://github.com/KuuDS/docker-image-donwloader.git</connection>
+    <developerConnection>scm:git:git@github.com:KuuDS/docker-image-donwloader.git</developerConnection>
+  </scm>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <docker.java.version>3.2.2</docker.java.version>
@@ -33,6 +31,7 @@
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <plugin.prettier.goal>check</plugin.prettier.goal>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus-plugin.version>1.8.0.Final</quarkus-plugin.version>
@@ -40,9 +39,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.8.0.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
-    <plugin.prettier.goal>check</plugin.prettier.goal>
   </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -101,6 +98,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-container-image-jib</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -149,6 +150,15 @@
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <version>3.0</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>format</goal>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <header>license-header-template.txt</header>
           <excludes>
@@ -159,27 +169,11 @@
             <exclude>.*/**</exclude>
           </excludes>
         </configuration>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>format</goal>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>com.hubspot.maven.plugins</groupId>
         <artifactId>prettier-maven-plugin</artifactId>
         <version>0.10</version>
-        <configuration>
-          <printWidth>90</printWidth>
-          <tabWidth>4</tabWidth>
-          <useTabs>false</useTabs>
-          <ignoreConfigFile>true</ignoreConfigFile>
-          <ignoreEditorConfig>true</ignoreEditorConfig>
-        </configuration>
         <executions>
           <execution>
             <phase>validate</phase>
@@ -189,6 +183,13 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <printWidth>90</printWidth>
+          <tabWidth>4</tabWidth>
+          <useTabs>false</useTabs>
+          <ignoreConfigFile>true</ignoreConfigFile>
+          <ignoreEditorConfig>true</ignoreEditorConfig>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -225,8 +226,14 @@
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker</id>
+      <properties>
+        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+        <quarkus.container-image.build>true</quarkus.container-image.build>
         <quarkus.native.container-build>true</quarkus.native.container-build>
-        <quarkus.container-image.name>${project.artifact}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
       </properties>
     </profile>
