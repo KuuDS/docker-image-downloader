@@ -39,7 +39,7 @@ docker run -d -p 8080:8080 --name docker_image_downloader \
   -e JAVA_OPTS="-Xmx512m -Xmn128m -XX:+UseG1GC -XX:maxDirectMemorySize=512m"
   -e FETCH_WITH_HTTPS=false \
   -e DEFAULT_REGISTRY=register:5000 \
-  -e REGISTRY_PREFIXES=/iotprivate,/development \
+  -e REGISTRY_PREFIXES=/ \
   -e DOCKER_HOST=tcp://docker:2375 \
   docker-image-downloader:latest
 ```
