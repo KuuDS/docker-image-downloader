@@ -10,6 +10,7 @@ import io.restassured.RestAssured;
 import javax.inject.Inject;
 import javax.ws.rs.core.Response.Status;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 public class ImageApiTest {
     private static final String TARGET_IMAGE = "alpine:3";
 
+    @Disabled
     @Test
     public void shouldGetImageSuccess() throws Exception {
         RestAssured

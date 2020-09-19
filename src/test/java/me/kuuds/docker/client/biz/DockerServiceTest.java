@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import me.kuuds.docker.client.Utils;
 import me.kuuds.docker.client.exception.BizException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -18,11 +19,13 @@ import org.junit.jupiter.api.Test;
 public class DockerServiceTest {
     private final DockerService dockerService;
 
+    @Disabled
     @Test
     public void shouldBeInjected() {
         Assertions.assertNotNull(dockerService, "DockerService should not be null.");
     }
 
+    @Disabled
     @Test
     public void shouldReturnTrue() throws BizException {
         dockerService.pullImage(Utils.TARGET_IMAGE);
