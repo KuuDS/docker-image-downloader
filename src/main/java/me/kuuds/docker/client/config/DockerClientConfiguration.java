@@ -10,8 +10,6 @@ import com.github.dockerjava.core.DefaultDockerClientConfig;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.DockerClientImpl;
 import com.github.dockerjava.netty.NettyDockerCmdExecFactory;
-import com.github.dockerjava.netty.NettyInvocationBuilder;
-import com.github.dockerjava.transport.DockerHttpClient;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -29,6 +27,7 @@ public class DockerClientConfiguration {
             .build();
     }
 
+    @SuppressWarnings("deprecation")
     @Produces
     public DockerClient dockerClient(DockerClientConfig config) {
         return DockerClientImpl

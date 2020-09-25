@@ -39,7 +39,9 @@ public class WebsocketsHandler {
     public void onError(Session session, Throwable throwable) {}
 
     @OnMessage
-    public void onMessage(String message) {}
+    public void onMessage(String message) {
+        broadcast(message);
+    }
 
     private void broadcast(String message) {
         sessions

@@ -102,6 +102,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-container-image-jib</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-config-yaml</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -162,7 +166,8 @@
         <configuration>
           <header>license-header-template.txt</header>
           <excludes>
-            <exclude>**/README</exclude>
+            <exclude>**/README.md</exclude>
+            <exclude>**/LICENSE</exclude>
             <exclude>src/main/docker/**</exclude>
             <exclude>src/test/resources/**</exclude>
             <exclude>src/main/resources/**</exclude>
@@ -231,12 +236,12 @@
     <profile>
       <id>docker</id>
       <properties>
+        <quarkus.container-image.insecure>true</quarkus.container-image.insecure>
+        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+        <quarkus.container-image.group>kuuds</quarkus.container-image.group>
         <quarkus.container-image.build>true</quarkus.container-image.build>
         <quarkus.native.container-build>true</quarkus.native.container-build>
-        <quarkus.container-image.group>kuuds</quarkus.container-image.group>
-        <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
         <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
-        <quarkus.container-image.insecure>true</quarkus.container-image.insecure>
       </properties>
     </profile>
   </profiles>
