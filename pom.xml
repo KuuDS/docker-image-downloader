@@ -1,11 +1,4 @@
 <?xml version="1.0"?>
-<!--
-
-    This Source Code Form is subject to the terms of the Mozilla Public
-    License, v. 2.0. If a copy of the MPL was not distributed with this
-    file, You can obtain one at https://mozilla.org/MPL/2.0/.
-
--->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
@@ -105,6 +98,14 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-config-yaml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-vertx</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-mutinyC</artifactId>
     </dependency>
   </dependencies>
   <build>
@@ -236,12 +237,12 @@
     <profile>
       <id>docker</id>
       <properties>
-        <quarkus.container-image.insecure>true</quarkus.container-image.insecure>
         <quarkus.container-image.name>${project.artifactId}</quarkus.container-image.name>
+        <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
+        <quarkus.native.container-build>true</quarkus.native.container-build>
+        <quarkus.container-image.insecure>true</quarkus.container-image.insecure>
         <quarkus.container-image.group>kuuds</quarkus.container-image.group>
         <quarkus.container-image.build>true</quarkus.container-image.build>
-        <quarkus.native.container-build>true</quarkus.native.container-build>
-        <quarkus.container-image.tag>${project.version}</quarkus.container-image.tag>
       </properties>
     </profile>
   </profiles>

@@ -22,6 +22,9 @@ public class BizExceptionHandler implements ExceptionMapper<BizException> {
     @Override
     public Response toResponse(BizException exception) {
         log.error("biz exception.", exception);
-        return Response.serverError().build();
+        return Response.status(exception.getStatus())
+                .entity(exception.getMessage())
+                .build();
     }
+
 }

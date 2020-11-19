@@ -6,8 +6,11 @@
 package me.kuuds.docker.client.biz;
 
 import java.io.InputStream;
+
 import me.kuuds.docker.client.domain.RecentTags;
+import me.kuuds.docker.client.domain.TaskInfo;
 import me.kuuds.docker.client.exception.BizException;
+import me.kuuds.docker.client.rs.qo.ImageQO;
 
 /**
  * Docker Operation Service Layer.
@@ -22,6 +25,10 @@ public interface DockerService {
      * @return {@link InputStream}
      */
     InputStream saveImage(String imageUrl) throws BizException;
+
+    TaskInfo<ImageQO> pullImage(ImageQO imageQO) throws BizException;
+
+    TaskInfo<String> packageImage(ImageQO imageQO) throws BizException;
 
     /**
      * Pull image from docker client.
