@@ -9,23 +9,20 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.SaveImageCmd;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.exception.NotFoundException;
-
-import java.io.InputStream;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
 import lombok.extern.slf4j.Slf4j;
 import me.kuuds.docker.client.domain.RecentTags;
 import me.kuuds.docker.client.domain.TagList;
-import me.kuuds.docker.client.domain.TaskInfo;
 import me.kuuds.docker.client.exception.BizException;
-import me.kuuds.docker.client.rs.qo.ImageQO;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import java.io.InputStream;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Default Impl
@@ -39,9 +36,6 @@ public class DockerServiceImpl implements DockerService {
     @Inject
     @RestClient
     DockerRestClient dockerRestClient;
-
-    @Inject
-    TaskVault taskVault;
 
     @Inject
     DockerClient client;
@@ -62,18 +56,6 @@ public class DockerServiceImpl implements DockerService {
         } catch (Exception e) {
             throw new BizException("Unknown exception.", e);
         }
-    }
-
-    @Override
-    public TaskInfo<ImageQO> pullImage(ImageQO imageQO) throws BizException {
-        final var task = taskVault.task(imageQO, 1);
-        final var cmd = client.pullImageCmd(imageQO.toUri());
-        return null;
-    }
-
-    @Override
-    public TaskInfo<String> packageImage(ImageQO imageQO) throws BizException {
-        return null;
     }
 
     @Override
@@ -102,32 +84,11 @@ public class DockerServiceImpl implements DockerService {
     private RecentTags handleTagList(final String repositoryName, final TagList tagList) {
         final var recentTags = new RecentTags();
         recentTags.setTags(
-                tagList
-                        .getTags()
+                tagList.getTags()
                         .stream()
-                        .map(
-                                tag -> {
-                                    try {
-                                        return Long.parseLong(tag);
-                                    } catch (final NumberFormatException e) {
-                                        return null;
-                                    }
-                                }
-                        )
-                        .filter(Objects::nonNull)
-                        .sorted(
-                                (a, b) -> {
-                                    if (a > b) {
-                                        return -1;
-                                    } else if (a == b) {
-                                        return 0;
-                                    } else {
-                                        return 1;
-                                    }
-                                }
-                        )
+                        .sorted(Comparator.reverseOrder())
                         .limit(10)
-                        .map(tag -> registryUrl + repositoryName + ":" + Long.toString(tag))
+                        .map(tag -> registryUrl + repositoryName + ":" + tag)
                         .collect(Collectors.toList())
         );
         return recentTags;

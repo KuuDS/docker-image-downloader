@@ -1,9 +1,13 @@
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
 package me.kuuds.docker.client.rs.qo;
-
-import lombok.Data;
 
 import java.net.URI;
 import java.net.URL;
+import lombok.Data;
 
 /**
  * query object for image info
@@ -12,7 +16,6 @@ import java.net.URL;
  */
 @Data
 public class ImageQO {
-
     private String repo;
     private String context;
     private String image;
@@ -32,6 +35,5 @@ public class ImageQO {
 
     public String toUri() {
         return repo + context + "/" + image + ":" + tag;
-
     }
 }

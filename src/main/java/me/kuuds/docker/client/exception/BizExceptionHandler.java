@@ -5,6 +5,7 @@
  */
 package me.kuuds.docker.client.exception;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author KuuDS
  */
+@ApplicationScoped
 @Provider
 @Slf4j
 public class BizExceptionHandler implements ExceptionMapper<BizException> {
@@ -22,9 +24,9 @@ public class BizExceptionHandler implements ExceptionMapper<BizException> {
     @Override
     public Response toResponse(BizException exception) {
         log.error("biz exception.", exception);
-        return Response.status(exception.getStatus())
-                .entity(exception.getMessage())
-                .build();
+        return Response
+            .status(exception.getStatus())
+            .entity(exception.getMessage())
+            .build();
     }
-
 }

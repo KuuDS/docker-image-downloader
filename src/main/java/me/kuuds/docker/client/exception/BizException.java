@@ -5,9 +5,8 @@
  */
 package me.kuuds.docker.client.exception;
 
-import lombok.Getter;
-
 import javax.ws.rs.core.Response;
+import lombok.Getter;
 
 /**
  * Exception for Biz Layer

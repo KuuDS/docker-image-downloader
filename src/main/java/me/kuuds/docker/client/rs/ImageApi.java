@@ -7,7 +7,6 @@ package me.kuuds.docker.client.rs;
 
 import com.google.common.collect.Lists;
 import io.smallrye.mutiny.Uni;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.kuuds.docker.client.biz.DockerService;
 import me.kuuds.docker.client.config.AppConfiguration;
@@ -28,22 +27,25 @@ import java.io.File;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
 @Path("/image")
 public class ImageApi {
-    @ConfigProperty(name = "app.registry-prefix")
-    String registryPrefixes;
 
     private static final int DEFAULT_CACHE_SIZE = 1024;
-    private final DockerService dockerService;
-    private final BizExceptionHandler bizExceptionHandler;
-    private final AppConfiguration appConfiguration;
+
+    @ConfigProperty(name = "app.registry-prefix")
+    String registryPrefixes;
+    @Inject
+    DockerService dockerService;
+    @Inject
+    BizExceptionHandler bizExceptionHandler;
+//    @Inject
+//    AppConfiguration appConfiguration;
 
     @GET
     @Path("")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response downloadImage(@QueryParam("name") String imageUrl)
-            throws BizException {
+        throws BizException {
         dockerService.pullImage(imageUrl);
         final var inputStream = dockerService.saveImage(imageUrl);
 
@@ -64,13 +66,12 @@ public class ImageApi {
             os.flush();
         };
         return Response
-                .ok()
-                .entity(stream)
-                .type(MediaType.APPLICATION_OCTET_STREAM)
-                .header("Content-Disposition", "attachment; filename=" + fileName)
-                .build();
+            .ok()
+            .entity(stream)
+            .type(MediaType.APPLICATION_OCTET_STREAM)
+            .header("Content-Disposition", "attachment; filename=" + fileName)
+            .build();
     }
-
 
     @GET
     @Path("/tags")
@@ -79,38 +80,25 @@ public class ImageApi {
         return dockerService.fetchTags(name);
     }
 
-    @PUT
-    @Path("/pull")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Response> pullImage(ImageQO imageQO) {
-        return Uni.createFrom().item(imageQO)
-                .onItem().transform(qo -> dockerService.pullImage(imageQO))
-                .onItem().transform(this::success)
-                .onFailure().invoke(this::handleException);
-    }
-
-    @PUT
-    @Path("/package")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Response> packageImage(ImageQO imageQO) {
-        return Uni.createFrom().item(imageQO)
-                .onItem().transform(qo -> dockerService.packageImage(imageQO))
-                .onItem().transform(this::success)
-                .onFailure().recoverWithItem(this::handleException);
-    }
-
     @GET
     @Path("/download/{fileName}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Uni<Response> getFile(@PathParam("fileName") String fileName) {
-        return Uni.createFrom().item(fileName)
-                .onItem().transform(File::new)
-                .onItem().transform(file -> Response.ok(file)
+        return Uni
+            .createFrom()
+            .item(fileName)
+            .onItem()
+            .transform(File::new)
+            .onItem()
+            .transform(
+                file ->
+                    Response
+                        .ok(file)
                         .header("Content-Disposition", "attachment;filename=" + fileName)
-                        .build())
-                .onFailure().recoverWithItem(this::handleException);
+                        .build()
+            )
+            .onFailure()
+            .recoverWithItem(this::handleException);
     }
 
     @GET
@@ -120,29 +108,31 @@ public class ImageApi {
         return Lists.newArrayList(registryPrefixes.split(","));
     }
 
-    @GET
-    @Path("/repo")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getRepositories() {
-        return appConfiguration.getRepositories();
-    }
-
-    @GET
-    @Path("/context")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getContext() {
-        return appConfiguration.getContext();
-    }
+//    @GET
+//    @Path("/repo")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<String> getRepositories() {
+//        return appConfiguration.getRepositories();
+//    }
+//
+//    @GET
+//    @Path("/context")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<String> getContext() {
+//        return appConfiguration.getContext();
+//    }
 
     private Response handleException(Throwable e) {
         if (e instanceof BizException) {
             return bizExceptionHandler.toResponse((BizException) e);
         } else {
-            return bizExceptionHandler.toResponse(new BizException("unknown exception.", e));
+            return bizExceptionHandler.toResponse(
+                new BizException("unknown exception.", e)
+            );
         }
     }
 
-    public Response success(Object data) {
-        return Response.ok(data).build();
-    }
+//    public Response success(Object data) {
+//        return Response.ok(data).build();
+//    }
 }

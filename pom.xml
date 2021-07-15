@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
+<!--
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+-->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
@@ -19,7 +26,7 @@
   </scm>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <docker.java.version>3.2.2</docker.java.version>
+    <docker.java.version>3.2.11</docker.java.version>
     <lombok.version>1.18.12</lombok.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>11</maven.compiler.source>
@@ -58,7 +65,7 @@
     </dependency>
     <dependency>
       <groupId>com.github.docker-java</groupId>
-      <artifactId>docker-java-transport-netty</artifactId>
+      <artifactId>docker-java-transport-zerodep</artifactId>
       <version>${docker.java.version}</version>
     </dependency>
     <dependency>
@@ -106,6 +113,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-mutiny</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
   </dependencies>
   <build>
